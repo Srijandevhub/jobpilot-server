@@ -13,6 +13,7 @@ app.use(cookieParser({ origin: ['http://localhost:5173', 'http://localhost:5174'
 
 app.use("/api/v1/user", require('./routes/userRoutes'));
 app.use("/api/v1/company", require('./routes/companyRoutes'));
+app.use("/api/v1/industrytype", require('./routes/industrytypeRoutes'));
 
 const url = process.env.MONGO;
 databaseConfig(url);
