@@ -1,31 +1,5 @@
 const mongoose = require('mongoose');
 
-// const experienceSchema = new mongoose.Schema({
-//     companyname: { type: String, required: true },
-//     jobtitle: { type: String, required: true },
-//     startdate: { type: Date, required: true },
-//     enddate: { type: Date, required: true },
-//     current: { type: Boolean, default: false },
-//     location: { type: String },
-//     description: { type: String }
-// }, { timestamps: true });
-// const educationSchema = new mongoose.Schema({
-//     institutename: { type: String, required: true },
-//     degree: { type: String, required: true },
-//     startdate: { type: Date, required: true },
-//     enddate: { type: Date, required: true },
-//     current: { type: Boolean, default: false },
-//     marks: { type: String },
-//     description: { type: String }
-// }, { timestamps: true });
-// const resume = new mongoose.Schema({
-//     url: { type: String }
-// }, { timestamps: true });
-// const sociallinkSchema = new mongoose.Schema({
-//     name: { type: String, default: "linkedin" },
-//     link: { type: String, default: "" }
-// }, { timestamps: true });
-
 const userSchema = new mongoose.Schema({
     fullname: { type: String, required: true, index: true },
     username: { type: String, required: true, unique: true, trim: true, index: true },
