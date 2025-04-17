@@ -5,14 +5,16 @@ const jobSchema = new mongoose.Schema({
     companyid: { type: mongoose.Schema.Types.ObjectId, ref: 'companies' },
     jobetype: { type: String, enum: ["full-time", "part-time", "internship"], default: "full-time" },
     jobdescription: { type: String, required: true },
-    salary: { type: String, default: "" },
+    minsalary: { type: String, default: "" },
+    maxsalary: { type: String, default: "" },
     location: {
-        city: { type: String },
-        country: { type: String }
+        city: { type: String, index: 1 },
+        country: { type: String, index: 1 }
     },
     jobexpiry: { type: Date, required: true },
     joblevel: { type: String, required: true },
-    experience: { type: String, required: true },
+    minexperience: { type: Number, required: true },
+    maxexperience: { type: Number, required: true },
     education: { type: String, required: true },
     postedby: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
     isarchieved: { type: Boolean, default: false },
