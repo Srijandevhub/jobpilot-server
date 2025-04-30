@@ -16,6 +16,11 @@ app.use("/api/v1/company", require('./routes/companyRoutes'));
 app.use("/api/v1/industrytype", require('./routes/industrytypeRoutes'));
 app.use("/api/v1/overview", require('./routes/overviewRoutes'));
 app.use("/api/v1/resume", require("./routes/resumeRoutes"));
+app.use("/api/v1/job", require("./routes/jobRoutes"));
+app.use("/api/v1/jobrole", require("./routes/jobroleRoutes"));
+app.use("/api/v1/category", require("./routes/categoryRoutes"));
+app.use("/api/v1/public", require('./routes/publicRoutes'));
+app.use("/api/v1/filter", require('./routes/filterRoutes'));
 
 const url = process.env.MONGO;
 databaseConfig(url);
