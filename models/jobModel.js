@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const jobSchema = new mongoose.Schema({
     title: { type: String, require: true, index: 1 },
     companyid: { type: mongoose.Schema.Types.ObjectId, ref: 'companies' },
-    jobetype: { type: String, enum: ["full-time", "part-time", "internship"], default: "full-time" },
+    jobtype: { type: String, enum: ["full-time", "part-time", "internship"], default: "full-time" },
     jobdescription: { type: String, required: true },
     minsalary: { type: String, default: "" },
     maxsalary: { type: String, default: "" },
@@ -18,6 +18,8 @@ const jobSchema = new mongoose.Schema({
     education: { type: String, required: true },
     postedby: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
     isarchieved: { type: Boolean, default: false },
+    jobroleid: { type: mongoose.Schema.Types.ObjectId, ref: "jobroles" },
+    categoryid: { type: mongoose.Schema.Types.ObjectId, ref: "categories" }
 }, { timestamps: true });
 
 const Job = mongoose.model("jobs", jobSchema);
