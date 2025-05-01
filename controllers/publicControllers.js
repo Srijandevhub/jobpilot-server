@@ -6,9 +6,10 @@ const Company = require('../models/companyModel');
 const getCategoriesPublic = async (req, res) => {
     try {
         const categories = await Category.find().sort({ createAt: -1 }).skip(0).limit(8);
+        const now = new Date();
         const complete = [];
         for (let i = 0; i < categories.length; i++) {
-            const jobCount = await Job.countDocuments({ categoryid: categories[i]._id });
+            const jobCount = await Job.countDocuments({ categoryid: categories[i]._id, jobexpiry: { $gte: now } });
             complete.push({
                 _id: categories[i]._id,
                 title: categories[i].title,
@@ -71,9 +72,10 @@ const getJobsPublic = async (req, res) => {
 const getJobrolesPublic = async (req, res) => {
     try {
         const jobroles = await Jobrole.find().sort({ createdAt: -1 }).skip(0).limit(12);
+        const now = new Date();
         const complete = [];
         for (let i = 0; i < jobroles.length; i++) {
-            const jobCount = await Job.countDocuments({ jobroleid: jobroles[i]._id });
+            const jobCount = await Job.countDocuments({ jobroleid: jobroles[i]._id, jobexpiry: { $gte: now } });
             complete.push({
                 jobroleid: jobroles[i]._id,
                 title: jobroles[i].title,
