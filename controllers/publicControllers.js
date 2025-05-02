@@ -2,6 +2,7 @@ const Category = require('../models/categoryModel');
 const Job = require('../models/jobModel');
 const Jobrole = require('../models/jobroleModel');
 const Company = require('../models/companyModel');
+const Industrytype = require('../models/industrytypeModel');
 
 const getCategoriesPublic = async (req, res) => {
     try {
@@ -102,4 +103,45 @@ const getJobPublic = async (req, res) => {
     }
 }
 
-module.exports = { getCategoriesPublic, getJobsPublic, getJobrolesPublic, getJobPublic };
+const getCompaniesPublic = async (req, res) => {
+    try {
+        const { query = '', skip = 0 } = req.query;
+        const searchQuery = {
+            isarchieved: false,
+            ...(query && { name: { $regex: query, $options: 'i' } })
+        }
+        const companies = await Company.find(searchQuery).sort({ createdAt: -1 }).skip(Number(skip)).limit(18);
+        const main = [];
+        const now = new Date();
+        for (let i = 0; i < companies.length; i++) {
+            const jobCount = await Job.countDocuments({ companyid: companies[i]._id, jobexpiry: { $gte: now }, isarchieved: false });
+            main.push({
+                _id: companies[i]._id,
+                name: companies[i].name,
+                logoimage: companies[i].logoimage,
+                position: jobCount
+            })
+        }
+        res.status(200).json({ message: "Companies fetched", companies: main });
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+}
+
+const getCompanyPublic = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const company = await Company.findOne({ _id: id, isarchieved: false });
+        if (!company) {
+            return res.status(400).json({ message: "Company not found" });
+        }
+        const now = new Date();
+        const jobs = await Job.find({ companyid: id, isarchieved: false, jobexpiry: { $gte: now } });
+        const indutryType = await Industrytype.findById(company.industrytypeid);
+        res.status(200).json({ message: "Company fetched", company: company, jobs: jobs, industrytype: indutryType });
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+}
+
+module.exports = { getCategoriesPublic, getJobsPublic, getJobrolesPublic, getJobPublic, getCompaniesPublic, getCompanyPublic };
