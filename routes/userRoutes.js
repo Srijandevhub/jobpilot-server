@@ -1,5 +1,5 @@
 const express = require('express');
-const { register, login, protected, logout, updateMyProfile, updateProfileImage, addUser, getUsers } = require('../controllers/userControllers');
+const { register, login, protected, logout, updateMyProfile, updateProfileImage, addUser, getUsers, fetchResumes } = require('../controllers/userControllers');
 const { verifyAuthentication } = require('../middlewares/auth');
 const upload = require('../middlewares/upload');
 const router = express.Router();
@@ -14,5 +14,6 @@ router.post("/updateprofileimage", verifyAuthentication, upload.single("imgfile"
 router.post("/adduser", verifyAuthentication, addUser);
 router.get("/allusers", verifyAuthentication, getUsers);
 
+router.get("/resumes", verifyAuthentication, fetchResumes);
 
 module.exports = router;
