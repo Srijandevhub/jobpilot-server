@@ -92,9 +92,10 @@ const getJobrolesPublic = async (req, res) => {
 const getJobPublic = async (req, res) => {
     try {
         const { id } = req.params;
-        const job = await Job.findOne({ _id: id, isarchieved: false });
+        const now = new Date();
+        const job = await Job.findOne({ _id: id, isarchieved: false, jobexpiry: { $gte: now } });
         if (!job) {
-            return res.status(400).json({ message: "Job not found" });
+            return res.status(404).json({ message: "Job not found" });
         }
         const company = await Company.findById(job.companyid);
         res.status(200).json({ message: "Job fetched", job: { job, company: company } });
@@ -133,7 +134,7 @@ const getCompanyPublic = async (req, res) => {
         const { id } = req.params;
         const company = await Company.findOne({ _id: id, isarchieved: false });
         if (!company) {
-            return res.status(400).json({ message: "Company not found" });
+            return res.status(404).json({ message: "Company not found" });
         }
         const now = new Date();
         const jobs = await Job.find({ companyid: id, isarchieved: false, jobexpiry: { $gte: now } });
