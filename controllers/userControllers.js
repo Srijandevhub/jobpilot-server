@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cloudinary = require('../config/cloudinaryConfig');
+const Resume = require('../models/resumeModel');
 
 const register = async (req, res) => {
     try {
@@ -223,4 +224,14 @@ const getUsers = async (req, res) => {
     }
 }
 
-module.exports = { register, login, logout, protected, updateMyProfile, updateProfileImage, addUser, getUsers };
+const fetchResumes = async (req, res) => {
+    try {
+        const user = req.user;
+        const resumes = await Resume.find({ userid: user._id });
+        res.status(200).json({ message: "Resumes fetched", resumes: resumes });
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+}
+
+module.exports = { register, login, logout, protected, updateMyProfile, updateProfileImage, addUser, getUsers, fetchResumes };
