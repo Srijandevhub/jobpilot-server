@@ -22,6 +22,7 @@ app.use("/api/v1/category", require("./routes/categoryRoutes"));
 app.use("/api/v1/public", require('./routes/publicRoutes'));
 app.use("/api/v1/filter", require('./routes/filterRoutes'));
 app.use("/api/v1/application", require('./routes/applicationRoutes'));
+app.use("/api/v1/skill", require('./routes/skillRoutes'));
 
 const url = process.env.MONGO;
 databaseConfig(url);
