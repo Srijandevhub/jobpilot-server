@@ -127,7 +127,7 @@ const protected = async (req, res) => {
 
 const updateMyProfile = async (req, res) => {
     try {
-        const { fullname, phonecode, phonenumber, title, personalwebsite, nationality, dateofbirth, gender, maritalstatus, biography, street, city, state, country, zipcode } = req.body;
+        const { fullname, phonecode, phonenumber, title, personalwebsite, nationality, dateofbirth, gender, maritalstatus, biography, street, city, state, country, zipcode, skillids } = req.body;
         const userid = req.user._id;
         const updatedUser = await User.findByIdAndUpdate(userid, {
             fullname,
@@ -146,7 +146,8 @@ const updateMyProfile = async (req, res) => {
                 state,
                 country,
                 zipcode
-            }
+            },
+            skillids: JSON.parse(skillids)
         }, { new: true });
         res.status(200).json({ message: "Updated", user: updatedUser });
     } catch (error) {
