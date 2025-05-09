@@ -26,7 +26,7 @@ const getCategoriesPublic = async (req, res) => {
 
 const getJobsPublic = async (req, res) => {
     try {
-        const { skip = 0, query = "", category = "", jobrole = "" } = req.query;
+        const { skip = 0, query = "", category = "", jobrole = "", location = "" } = req.query;
         const now = new Date();
 
         const categoryIds = category ? category.split(',').map(id => id.trim()) : [];
@@ -37,7 +37,8 @@ const getJobsPublic = async (req, res) => {
             jobexpiry: { $gte: now },
             ...(query && { title: { $regex: query, $options: 'i' } }),
             ...(categoryIds.length > 0 && { categoryid: { $in: categoryIds } }),
-            ...(jobroleids.length > 0 && { jobroleid: { $in: jobroleids } })
+            ...(jobroleids.length > 0 && { jobroleid: { $in: jobroleids } }),
+            ...(location && { $or: [ { 'location.city': { $regex: location, $options: 'i' } }, { 'location.country': { $regex: location, $options: 'i' } } ] })
         };
 
         const jobs = await Job.find(searchQuery).sort({ createdAt: -1 }).skip(Number(skip)).limit(15).lean();

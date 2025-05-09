@@ -19,7 +19,8 @@ const jobSchema = new mongoose.Schema({
     postedby: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
     isarchieved: { type: Boolean, default: false },
     jobroleid: { type: mongoose.Schema.Types.ObjectId, ref: "jobroles" },
-    categoryid: { type: mongoose.Schema.Types.ObjectId, ref: "categories" }
+    categoryid: { type: mongoose.Schema.Types.ObjectId, ref: "categories" },
+    skillids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'skills' }]
 }, { timestamps: true });
 
 const Job = mongoose.model("jobs", jobSchema);

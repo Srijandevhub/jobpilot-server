@@ -6,9 +6,9 @@ const addJob = async (req, res) => {
         if (user.role === 'applicant') {
             return res.status(400).json({ message: "Access denied: Add job not allowed" });
         }
-        const { title, jobtype, jobdescription, minsalary, maxsalary, city, country, jobexpiry, joblevel, minexperience, maxexperience, education, categoryid, jobroleid } = req.body;
+        const { title, jobtype, jobdescription, minsalary, maxsalary, city, country, jobexpiry, joblevel, minexperience, maxexperience, education, categoryid, jobroleid, skillids } = req.body;
         const newJob = new Job({
-            title, jobtype, jobdescription, minsalary, maxsalary, jobexpiry, joblevel, minexperience, maxexperience, education, companyid: user.companyid, postedby: user._id, categoryid, jobroleid, location: { city, country }
+            title, jobtype, jobdescription, minsalary, maxsalary, jobexpiry, joblevel, minexperience, maxexperience, education, companyid: user.companyid, postedby: user._id, categoryid, jobroleid, location: { city, country }, skillids: JSON.parse(skillids)
         });
         await newJob.save();
         res.status(200).json({ message: "Job Added successfully" });
