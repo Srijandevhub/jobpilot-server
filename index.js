@@ -8,6 +8,8 @@ const databaseConfig = require('./config/databaseConfig');
 const app = express();
 
 app.use(express.json());
+app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:5174', 'https://jobpilot-client-6bph8tz51-srijans-projects-4928e819.vercel.app'], methods: ["POST", "GET", "PUT", "DELETE"], credentials: true }));
+app.use(cookieParser({ origin: ['http://localhost:5173', 'http://localhost:5174', 'https://jobpilot-client-6bph8tz51-srijans-projects-4928e819.vercel.app'] }));
 app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:5174', "https://jobpilot-client.vercel.app"], methods: ["POST", "GET", "PUT", "DELETE"], credentials: true }));
 app.use(cookieParser({ origin: ['http://localhost:5173', 'http://localhost:5174', 'https://jobpilot-client.vercel.app'] }));
 
