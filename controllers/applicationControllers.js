@@ -6,7 +6,7 @@ const Company = require('../models/companyModel');
 const addApplication = async (req, res) => {
     try {
         const user = req.user;
-        const { jobid, resumelink, coverletter, matchedskills } = req.body;
+        const { jobid, resumelink, coverletter, matchedskills, recruiterid } = req.body;
         const applicationExists = await Application.findOne({ jobid: jobid });
         if (applicationExists) {
             return res.status(400).json({ message: "Already applied" });
@@ -16,7 +16,8 @@ const addApplication = async (req, res) => {
             userid: user._id,
             resumelink,
             coverletter,
-            matchedskills: Number(matchedskills)
+            matchedskills: Number(matchedskills),
+            recruiterid
         });
         await newApplication.save();
         await User.findByIdAndUpdate(user._id, {
@@ -87,6 +88,7 @@ const getApplications = async (req, res) => {
             return {
                 _id: application._id,
                 applicant: applicant.fullname,
+                userid: applicant._id,
                 title: jobPosted.title,
                 match: matchPercent
             };
@@ -159,7 +161,8 @@ const getMyApplications = async (req, res) => {
                 coverletter: item.coverletter,
                 status: item.status,
                 jobtitle: job.title,
-                companyname: company.name
+                companyname: company.name,
+                recruiterid: job.postedby
             }
         });
         res.status(200).json({ message: "Applications fetched", applications: allApplications })
